@@ -13,6 +13,7 @@ services:
     command:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=juypterclassroom_default"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
@@ -25,7 +26,11 @@ services:
     build:
       context: .
     restart: always
-    # TODO volume for database
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # TODO database
+    environment:
+      DOMAIN: $DOMAIN
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jc_insecure.rule=Host(`$DOMAIN`)"
