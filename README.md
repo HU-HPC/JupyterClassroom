@@ -4,7 +4,7 @@ JuypterClassroom that makes using Juypter notebooks in a classroom setting simpl
 
 ## Usage
 
-`docker run -it --rm -p "80:80" docker.pkg.github.com/chris13524/jupyterclassroom/app:latest`
+`docker run -it --rm -p "80:80" docker.pkg.github.com/hu-hpc/jupyterclassroom/app:latest`
 
 ## Development server
 

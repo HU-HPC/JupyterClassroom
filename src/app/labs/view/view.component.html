@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+  <button mat-button routerLink="/">
+    JuypterClassroom
+  </button>
+
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item>Settings</button>
+    <button mat-menu-item>Help</button>
+  </mat-menu>
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</mat-toolbar>
+
+<ng-container *ngIf="!started">
+  Hold on a sec...
+</ng-container>
+
+<ng-container *ngIf="started">
+  <iframe src="https://www.google.com"></iframe>
+</ng-container>

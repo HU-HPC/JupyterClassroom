@@ -1,0 +1,36 @@
+version: "3.7"
+services:
+
+  traefik:
+    image: traefik:2.0
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $DATA/acme/:/acme/
+    ports:
+      - "80:80"
+      - "443:443"
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
+      - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myhttpchallenge.acme.email=chris@hichris.com"
+      - "--certificatesresolvers.myhttpchallenge.acme.storage=/acme/acme.json"
+
+  jupyterclassroom:
+    image: docker.pkg.github.com/hu-hpc/jupyterclassroom/app:latest
+    build:
+      context: .
+    restart: always
+    # TODO volume for database
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jc_insecure.rule=Host(`$DOMAIN`)"
+      - "traefik.http.routers.jc_insecure.middlewares=https-redirect"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.jc.rule=Host(`$DOMAIN`)"
+      - "traefik.http.routers.jc.tls.certresolver=myhttpchallenge"
+      - "traefik.http.services.jc.loadbalancer.server.port=80"

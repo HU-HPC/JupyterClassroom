@@ -125,8 +125,12 @@
           }
         },
         "server": {
-          "builder": "@angular-devkit/build-angular:server",
+          "builder": "@angular-builders/custom-webpack:server",
           "options": {
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js",
+              "replaceDuplicatePlugins": true
+            },
             "outputPath": "dist/juypterclassroom/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json"
