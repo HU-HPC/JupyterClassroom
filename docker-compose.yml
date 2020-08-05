@@ -10,10 +10,13 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "8080:8080"
     command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=juypterclassroom_default"
+      - "--providers.docker.network=jupyterclassroom_default"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
